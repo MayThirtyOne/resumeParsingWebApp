@@ -1,4 +1,4 @@
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import { useField } from "formik";
 import React, { useCallback, useEffect, useState } from "react";
 import { FileError, FileRejection, useDropzone } from "react-dropzone";
@@ -6,6 +6,8 @@ import { SingleFileUploadWithProgress } from "./SingleFileUploadWithProgress";
 import { UploadError } from "./UploadError";
 import Button from "@material-ui/core/Button";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import Box from '@material-ui/core/Box';
+
 
 export interface UploadableFile {
   file: File;
@@ -68,23 +70,26 @@ export function MultipleFileUploadField({ name }: { name: string }) {
 
   return (
     <React.Fragment>
-      <Grid item>
+      <Grid item  >
         <div {...getRootProps({ className: classes.dropzone })}>
           <input {...getInputProps()} />
-
-          <p>Drag and Drop your resume here or click the Upload button!</p>
-          <div>
+          <Box><div>
             <Button
               variant="contained"
-              color="default"
+              color="primary"
               className={classes.button}
               startIcon={<CloudUploadIcon />}
             >
-              Upload Resume
+              Click Here To Upload Resume
             </Button>
           </div>
+          </Box>
+          <p>Drag and Drop your resume here or click the Upload button!</p>
+          
+          
         </div>
       </Grid>
+      
 
       {files.map((fileWrapper, idx) => (
         <Grid item key={idx}>

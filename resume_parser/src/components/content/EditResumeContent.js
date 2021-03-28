@@ -1,9 +1,10 @@
 import React from 'react'
+import MultiStepForm from "../multistepform/MultiStepForm"
 
 function EditResumeContent() {
     return (
         <div>
-            <h1> Edit your reesume content here!</h1>
+            <MultiStepForm/>
         </div>
     )
 }
