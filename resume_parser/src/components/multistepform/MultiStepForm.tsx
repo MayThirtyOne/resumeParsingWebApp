@@ -9,6 +9,7 @@ import {
   StepLabel,
   CardActions,
   Stepper,
+  TextareaAutosize,
 } from "@material-ui/core";
 import {
   Field,
@@ -25,8 +26,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-import Paper from '@material-ui/core/Paper';
-
+import Paper from "@material-ui/core/Paper";
+import { Textarea } from "@chakra-ui/textarea";
 
 // const sleep = (time) => new Promise((acc) => setTimeout(acc, time));
 
@@ -64,6 +65,16 @@ function MultiStepForm() {
                 "Copy Code From StackOverflow",
                 "Coding While High",
               ],
+              certificates: ["Coursera", "NPTEL", "University Of Duke"],
+              previousExperiences: ["exp1", "exp2"],
+              previousExperiences_Employer: ["Google", "Yahoo"],
+              previousExperiences_Start: ["2000", "2001"],
+              previousExperiences_Stop: ["2010", "2020"],
+              previousProjects_Title: [
+                "Good Project",
+                "A really good project!",
+              ],
+              previousProjects_Summary: ["Neat Summary1", "Neat Summary2"],
             }}
             onSubmit={async (values) => {
               // await sleep(3000);
@@ -256,7 +267,7 @@ function MultiStepForm() {
               </Grid>
             </FormikStep>
             <FormikStep label="Skills, Achievements & Certifications">
-              <Card className={classes.root} variant="outlined" >
+              <Card className={classes.root} variant="outlined">
                 <CardContent>
                   <Typography
                     className={classes.title}
@@ -361,20 +372,19 @@ function MultiStepForm() {
                               {techSkills.map(
                                 (techSkill: string, index: number) => (
                                   <div key={index}>
-                                    <Grid item xs={12} >
-                                    
-                                      <Box paddingBottom={2} paddingRight = {4 }>
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
                                         <Field
                                           name={`techSkills[${index}]`}
                                           component={TextField}
                                           label={`Skill-${index + 1}`}
-                                          style = {{width: 350}}
+                                          style={{ width: 350 }}
                                         />
                                       </Box>
                                     </Grid>
 
-                                    <Grid item  xs ={12} >
-                                      <Box paddingBottom={2} paddingLeft = {12}>
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingLeft={12}>
                                         {index > 0 && (
                                           <Button
                                             variant="contained"
@@ -416,15 +426,302 @@ function MultiStepForm() {
                 </CardContent>
               </Card>
 
-              <Box paddingBottom={2}>
-                <Field
-                  fullWidth
-                  name="description"
-                  component={TextField}
-                  label="Description"
-                />
-              </Box>
+              <br></br>
+
+              <Card className={classes.root} variant="outlined">
+                <CardContent>
+                  <Typography
+                    className={classes.title}
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Certifications and Licenses
+                  </Typography>
+                </CardContent>
+                <CardContent>
+                  <div className="form-control">
+                    <FieldArray name="certificates">
+                      {(fieldArrayProps) => {
+                        const { push, remove, form } = fieldArrayProps;
+                        const { values } = form;
+                        const { certificates } = values;
+                        // console.log('fieldArrayProps', fieldArrayProps)
+                        // console.log('Form errors', form.errors)
+                        return (
+                          <div>
+                            <Grid container spacing={0}>
+                              {certificates.map(
+                                (certificate: string, index: number) => (
+                                  <div key={index}>
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
+                                        <Field
+                                          name={`certificates[${index}]`}
+                                          component={TextField}
+                                          label={`Certificate-${index + 1}`}
+                                          style={{ width: 350 }}
+                                        />
+                                      </Box>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingLeft={12}>
+                                        {index > 0 && (
+                                          <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={() => remove(index)}
+                                            startIcon={
+                                              <RemoveCircleOutlineIcon />
+                                            }
+                                          >
+                                            Remove
+                                          </Button>
+                                        )}
+                                      </Box>
+                                    </Grid>
+                                  </div>
+                                )
+                              )}
+                            </Grid>
+                            <Box
+                              paddingBottom={2}
+                              textAlign="center"
+                              paddingTop={5}
+                            >
+                              <Button
+                                variant="contained"
+                                size="large"
+                                color="primary"
+                                startIcon={<AddCircleOutlineIcon />}
+                                onClick={() => push("")}
+                              >
+                                Add Certificate/License
+                              </Button>
+                            </Box>
+                          </div>
+                        );
+                      }}
+                    </FieldArray>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <br></br>
             </FormikStep>
+
+            <FormikStep label="Previous Experiences & Projects">
+              <Card className={classes.root} variant="outlined">
+                <CardContent>
+                  <Typography
+                    className={classes.title}
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Previous Experiences
+                  </Typography>
+                </CardContent>
+                <CardContent>
+                  <div className="form-control">
+                    <FieldArray name="previousExperiences">
+                      {(fieldArrayProps) => {
+                        const { push, remove, form } = fieldArrayProps;
+                        const { values } = form;
+                        const { previousExperiences } = values;
+                        // console.log('fieldArrayProps', fieldArrayProps)
+                        // console.log('Form errors', form.errors)
+                        return (
+                          <div>
+                            <Grid container spacing={0}>
+                              {previousExperiences.map(
+                                (previousExperience: string, index: number) => (
+                                  <div key={index}>
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
+                                        <Field
+                                          name={`previousExperiences_Employer[${index}]`}
+                                          component={TextField}
+                                          label={`Employer-${index + 1}`}
+                                          style={{ width: 350 }}
+                                        />
+                                      </Box>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
+                                        <Field
+                                          name={`previousExperiences_Start[${index}]`}
+                                          component={TextField}
+                                          label={`startYear`}
+                                          style={{ width: 350 }}
+                                        />
+                                      </Box>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
+                                        <Field
+                                          name={`previousExperiences_Stop[${index}]`}
+                                          component={TextField}
+                                          label={`stopYear`}
+                                          style={{ width: 350 }}
+                                        />
+                                      </Box>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
+                                        <Field
+                                          name={`previousExperiences[${index}]`}
+                                          component={TextField}
+                                          label={`Short Summary`}
+                                          style={{ width: 350, rows: 5 }}
+                                          multiline
+                                        />
+                                      </Box>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingLeft={12}>
+                                        {index > 0 && (
+                                          <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={() => remove(index)}
+                                            startIcon={
+                                              <RemoveCircleOutlineIcon />
+                                            }
+                                          >
+                                            Remove
+                                          </Button>
+                                        )}
+                                      </Box>
+                                    </Grid>
+                                  </div>
+                                )
+                              )}
+                            </Grid>
+                            <Box
+                              paddingBottom={2}
+                              textAlign="center"
+                              paddingTop={5}
+                            >
+                              <Button
+                                variant="contained"
+                                size="large"
+                                color="primary"
+                                startIcon={<AddCircleOutlineIcon />}
+                                onClick={() => push("")}
+                              >
+                                Add Previous Experience
+                              </Button>
+                            </Box>
+                          </div>
+                        );
+                      }}
+                    </FieldArray>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <br></br>
+              <Card className={classes.root} variant="outlined">
+                <CardContent>
+                  <Typography
+                    className={classes.title}
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Previous Projects
+                  </Typography>
+                </CardContent>
+                <CardContent>
+                  <div className="form-control">
+                    <FieldArray name="previousProjects_Title">
+                      {(fieldArrayProps) => {
+                        const { push, remove, form } = fieldArrayProps;
+                        const { values } = form;
+                        const { previousProjects_Title } = values;
+                        // console.log('fieldArrayProps', fieldArrayProps)
+                        // console.log('Form errors', form.errors)
+                        return (
+                          <div>
+                            <Grid container spacing={0}>
+                              {(previousProjects_Title).map(
+                                (previousExperience: string, index: number) => (
+                                  <div key={index}>
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
+                                        <Field
+                                          name={`previousProjects_Title[${index}]`}
+                                          component={TextField}
+                                          label={`Project Title-${index + 1}`}
+                                          style={{ width: 350 }}
+                                        />
+                                      </Box>
+                                    </Grid>
+
+                                   
+
+                                    
+
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
+                                        <Field
+                                          name={`previousProjects_Summary[${index}]`}
+                                          component={TextField}
+                                          label={`Short Descreption`}
+                                          style={{ width: 350, rows: 5 }}
+                                          multiline
+                                        />
+                                      </Box>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingLeft={12}>
+                                        {index > 0 && (
+                                          <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={() => remove(index)}
+                                            startIcon={
+                                              <RemoveCircleOutlineIcon />
+                                            }
+                                          >
+                                            Remove
+                                          </Button>
+                                        )}
+                                      </Box>
+                                    </Grid>
+                                  </div>
+                                )
+                              )}
+                            </Grid>
+                            <Box
+                              paddingBottom={2}
+                              textAlign="center"
+                              paddingTop={5}
+                            >
+                              <Button
+                                variant="contained"
+                                size="large"
+                                color="primary"
+                                startIcon={<AddCircleOutlineIcon />}
+                                onClick={() => push("")}
+                              >
+                                Add Project
+                              </Button>
+                            </Box>
+                          </div>
+                        );
+                      }}
+                    </FieldArray>
+                  </div>
+                </CardContent>
+              </Card>
+              <br></br>
+            </FormikStep>
+           
 
             <FormikStep label="More Info">
               <Box paddingBottom={2}>
