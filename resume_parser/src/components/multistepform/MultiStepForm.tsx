@@ -7,9 +7,7 @@ import {
   Grid,
   Step,
   StepLabel,
-  CardActions,
   Stepper,
-  TextareaAutosize,
 } from "@material-ui/core";
 import {
   Field,
@@ -19,19 +17,15 @@ import {
   FormikValues,
   FieldArray,
 } from "formik";
-import { CheckboxWithLabel, TextField } from "formik-material-ui";
+import { TextField } from "formik-material-ui";
 import React, { useState } from "react";
-import { mixed, number, object } from "yup";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-import Paper from "@material-ui/core/Paper";
-import { Textarea } from "@chakra-ui/textarea";
 
 // const sleep = (time) => new Promise((acc) => setTimeout(acc, time));
 
-const emptySkills = { my_skill: "" };
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -54,19 +48,31 @@ function MultiStepForm() {
         <CardContent>
           <FormikStepper
             initialValues={{
-              firstName: "Default Value",
-              lastName: "",
-              millionaire: false,
-              money: 0,
-              description: "",
+              firstName: "Vijay",
+              lastName: "Kumar",
+              address_1: "323, BSK 3rd Stage",
+              address_2: "Near Katriguppe Signal",
+              city_name: "Bengaluru",
+              state_name: "Karnataka",
+              pincode: "560085",
+              date_of_birth: "22/12/1999",
+              email_address: "goodemail@gmail.com",
+              phone_number: "8884696920",
+              school_name: "KV Gola Road",
+              school_marks: "92.41",
+              school_passing_year: "2017",
+              college_name: "DSCE",
+              college_marks: "8.78",
+              college_passing_year: "2021",
+
               progLanguages: ["C++", "Python", "JAVA"],
               techSkills: [
-                "Coding Fast",
+                "Clean Coding",
                 "Copy Code From StackOverflow",
-                "Coding While High",
+                "Coding While In Bed",
               ],
               certificates: ["Coursera", "NPTEL", "University Of Duke"],
-              previousExperiences: ["exp1", "exp2"],
+              previousExperiences: ["Blah Blah Experience", "Not Such Good Experience"],
               previousExperiences_Employer: ["Google", "Yahoo"],
               previousExperiences_Start: ["2000", "2001"],
               previousExperiences_Stop: ["2010", "2020"],
@@ -75,6 +81,9 @@ function MultiStepForm() {
                 "A really good project!",
               ],
               previousProjects_Summary: ["Neat Summary1", "Neat Summary2"],
+              spokenLanguages: ["English", "Hindi"],
+              achievements: ["Best Chess Player", "Best Dancer"],
+              hobbiesAndInterests: ["Snooker", "Cricket", "Chess"],
             }}
             onSubmit={async (values) => {
               // await sleep(3000);
@@ -166,9 +175,9 @@ function MultiStepForm() {
                   <Box paddingBottom={2}>
                     <Field
                       fullWidth
-                      name="country_name"
+                      name="date_of_birth"
                       component={TextField}
-                      label="Country"
+                      label="Date Of Birth (DD/MM/YYYY)"
                     />
                   </Box>
                 </Grid>
@@ -647,7 +656,7 @@ function MultiStepForm() {
                         return (
                           <div>
                             <Grid container spacing={0}>
-                              {(previousProjects_Title).map(
+                              {previousProjects_Title.map(
                                 (previousExperience: string, index: number) => (
                                   <div key={index}>
                                     <Grid item xs={12}>
@@ -660,10 +669,6 @@ function MultiStepForm() {
                                         />
                                       </Box>
                                     </Grid>
-
-                                   
-
-                                    
 
                                     <Grid item xs={12}>
                                       <Box paddingBottom={2} paddingRight={4}>
@@ -721,17 +726,250 @@ function MultiStepForm() {
               </Card>
               <br></br>
             </FormikStep>
-           
 
-            <FormikStep label="More Info">
-              <Box paddingBottom={2}>
-                <Field
-                  fullWidth
-                  name="description"
-                  component={TextField}
-                  label="Description"
-                />
-              </Box>
+            <FormikStep label="Achievements, Co-curricular & More">
+              <Card className={classes.root} variant="outlined">
+                <CardContent>
+                  <Typography
+                    className={classes.title}
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Achievements
+                  </Typography>
+                </CardContent>
+                <CardContent>
+                  <div className="form-control">
+                    <FieldArray name="achievements">
+                      {(fieldArrayProps) => {
+                        const { push, remove, form } = fieldArrayProps;
+                        const { values } = form;
+                        const { achievements } = values;
+                        // console.log('fieldArrayProps', fieldArrayProps)
+                        // console.log('Form errors', form.errors)
+                        return (
+                          <div>
+                            <Grid container spacing={2}>
+                              {achievements.map(
+                                (achievement: string, index: number) => (
+                                  <div key={index}>
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
+                                        <Field
+                                          name={`achievements[${index}]`}
+                                          component={TextField}
+                                          label={`Achievement-${index + 1}`}
+                                          style={{ width: 350 }}
+                                        />
+                                      </Box>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingLeft={12}>
+                                        {index > 0 && (
+                                          <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={() => remove(index)}
+                                            startIcon={
+                                              <RemoveCircleOutlineIcon />
+                                            }
+                                          >
+                                            Remove
+                                          </Button>
+                                        )}
+                                      </Box>
+                                    </Grid>
+                                  </div>
+                                )
+                              )}
+                            </Grid>
+                            <Box
+                              paddingBottom={2}
+                              textAlign="center"
+                              paddingTop={5}
+                            >
+                              <Button
+                                variant="contained"
+                                size="large"
+                                color="primary"
+                                startIcon={<AddCircleOutlineIcon />}
+                                onClick={() => push("")}
+                              >
+                                Add Achievement
+                              </Button>
+                            </Box>
+                          </div>
+                        );
+                      }}
+                    </FieldArray>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <br></br>
+
+              <Card className={classes.root} variant="outlined">
+                <CardContent>
+                  <Typography
+                    className={classes.title}
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Spoken Languages
+                  </Typography>
+                </CardContent>
+                <CardContent>
+                  <div className="form-control">
+                    <FieldArray name="spokenLanguages">
+                      {(fieldArrayProps) => {
+                        const { push, remove, form } = fieldArrayProps;
+                        const { values } = form;
+                        const { spokenLanguages } = values;
+                        // console.log('fieldArrayProps', fieldArrayProps)
+                        // console.log('Form errors', form.errors)
+                        return (
+                          <div>
+                            <Grid container spacing={0}>
+                              {spokenLanguages.map(
+                                (spokenLanguage: string, index: number) => (
+                                  <div key={index}>
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
+                                        <Field
+                                          name={`spokenLanguages[${index}]`}
+                                          component={TextField}
+                                          label={`Language-${index + 1}`}
+                                          style={{ width: 350 }}
+                                        />
+                                      </Box>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingLeft={12}>
+                                        {index > 0 && (
+                                          <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={() => remove(index)}
+                                            startIcon={
+                                              <RemoveCircleOutlineIcon />
+                                            }
+                                          >
+                                            Remove
+                                          </Button>
+                                        )}
+                                      </Box>
+                                    </Grid>
+                                  </div>
+                                )
+                              )}
+                            </Grid>
+                            <Box
+                              paddingBottom={2}
+                              textAlign="center"
+                              paddingTop={5}
+                            >
+                              <Button
+                                variant="contained"
+                                size="large"
+                                color="primary"
+                                startIcon={<AddCircleOutlineIcon />}
+                                onClick={() => push("")}
+                              >
+                                Add Language
+                              </Button>
+                            </Box>
+                          </div>
+                        );
+                      }}
+                    </FieldArray>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <br></br>
+
+              <Card className={classes.root} variant="outlined">
+                <CardContent>
+                  <Typography
+                    className={classes.title}
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Hobbies, Co-Cirricular & Interests
+                  </Typography>
+                </CardContent>
+                <CardContent>
+                  <div className="form-control">
+                    <FieldArray name="hobbiesAndInterests">
+                      {(fieldArrayProps) => {
+                        const { push, remove, form } = fieldArrayProps;
+                        const { values } = form;
+                        const { hobbiesAndInterests } = values;
+                        // console.log('fieldArrayProps', fieldArrayProps)
+                        // console.log('Form errors', form.errors)
+                        return (
+                          <div>
+                            <Grid container spacing={0}>
+                              {hobbiesAndInterests.map(
+                                (hobbiesAndInterest: string, index: number) => (
+                                  <div key={index}>
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingRight={4}>
+                                        <Field
+                                          name={`hobbiesAndInterests[${index}]`}
+                                          component={TextField}
+                                          label={`Hobby-${index + 1}`}
+                                          style={{ width: 350 }}
+                                        />
+                                      </Box>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                      <Box paddingBottom={2} paddingLeft={12}>
+                                        {index > 0 && (
+                                          <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={() => remove(index)}
+                                            startIcon={
+                                              <RemoveCircleOutlineIcon />
+                                            }
+                                          >
+                                            Remove
+                                          </Button>
+                                        )}
+                                      </Box>
+                                    </Grid>
+                                  </div>
+                                )
+                              )}
+                            </Grid>
+                            <Box
+                              paddingBottom={2}
+                              textAlign="center"
+                              paddingTop={5}
+                            >
+                              <Button
+                                variant="contained"
+                                size="large"
+                                color="primary"
+                                startIcon={<AddCircleOutlineIcon />}
+                                onClick={() => push("")}
+                              >
+                                Add Hobby
+                              </Button>
+                            </Box>
+                          </div>
+                        );
+                      }}
+                    </FieldArray>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <br></br>
             </FormikStep>
           </FormikStepper>
         </CardContent>

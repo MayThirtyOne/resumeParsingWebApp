@@ -23,6 +23,7 @@ export function SingleFileUploadWithProgress({
 
     upload();
   }, []);
+  // eslint-disable-next-line
 
   return (
     <Grid item>

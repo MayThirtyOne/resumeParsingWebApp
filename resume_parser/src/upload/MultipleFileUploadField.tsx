@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import { useField } from "formik";
 import React, { useCallback, useEffect, useState } from "react";
 import { FileError, FileRejection, useDropzone } from "react-dropzone";
@@ -46,6 +46,7 @@ export function MultipleFileUploadField({ name }: { name: string }) {
     helpers.setValue(files);
     // helpers.setTouched(true);
   }, [files]);
+  // eslint-disable-next-line
 
   function onUpload(file: File, url: string) {
     setFiles((curr) =>
