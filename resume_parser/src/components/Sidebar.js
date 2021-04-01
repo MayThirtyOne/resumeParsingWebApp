@@ -17,12 +17,14 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import EditIcon from "@material-ui/icons/Edit";
-import FindInPageIcon from '@material-ui/icons/FindInPage';
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-import FaceIcon from '@material-ui/icons/Face';
-import SettingsIcon from '@material-ui/icons/Settings';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import {Link} from "react-router-dom";
+import FindInPageIcon from "@material-ui/icons/FindInPage";
+import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
+import FaceIcon from "@material-ui/icons/Face";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
 const drawerWidth = 240;
 
@@ -89,6 +91,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Sidebar(props) {
+  const { logout } = useAuth0();
+
   const prop_value = props.main_content;
   const classes = useStyles();
   const theme = useTheme();
@@ -123,12 +127,27 @@ export default function Sidebar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Resume Parser And Ranker V 1.0
-          </Typography>
-          
-          
-
+          <Grid
+            justify="space-between" // Add it here :)
+            container
+            spacing={24}
+          >
+            <Grid item>
+              <Typography variant="h6" noWrap>
+                Resume Parser And Ranker V 1.0
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<ExitToAppIcon />}
+                onClick={() => logout({ returnTo: window.location.origin })}
+              >
+                Logout
+              </Button>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -155,66 +174,67 @@ export default function Sidebar(props) {
         </div>
         <Divider />
         <List>
-          
           <ListItem button key="Upload Resume">
-            <ListItemIcon>
-              <CloudUploadIcon />
-            </ListItemIcon>
-            <Link to = '/upload'><ListItemText primary="Upload Resume" /></Link>
+            <Link to="/upload">
+              <ListItemIcon>
+                <CloudUploadIcon />
+              </ListItemIcon>
+            </Link>
+            <Link to="/upload">
+              <ListItemText primary="Upload Resume" />
+            </Link>
           </ListItem>
 
           <ListItem button key="Edit Resume">
-            <ListItemIcon>
-              <EditIcon />
-            </ListItemIcon>
-            <Link to = '/edit'><ListItemText primary="Edit Resume" /></Link>
+            <Link to="/edit">
+              <ListItemIcon>
+                <EditIcon />
+              </ListItemIcon>
+            </Link>
+            <Link to="/edit">
+              <ListItemText primary="Edit Resume" />
+            </Link>
           </ListItem>
 
           <ListItem button key="Search Jobs">
-            <ListItemIcon>
-              <FindInPageIcon />
-            </ListItemIcon>
-            <Link to = '/search'><ListItemText primary="Search Jobs" /></Link>
+            <Link to="/search">
+              <ListItemIcon>
+                <FindInPageIcon />
+              </ListItemIcon>
+            </Link>
+            <Link to="/search">
+              <ListItemText primary="Search Jobs" />
+            </Link>
           </ListItem>
 
           <ListItem button key="My Applications">
-            <ListItemIcon>
-              <AssignmentIndIcon />
-            </ListItemIcon>
-            <Link to = '/myapplications'><ListItemText primary="My Applications" /></Link>
+            <Link to="/myapplications">
+              <ListItemIcon>
+                <AssignmentIndIcon />
+              </ListItemIcon>
+            </Link>
+            <Link to="/myapplications">
+              <ListItemText primary="My Applications" />
+            </Link>
           </ListItem>
-
         </List>
         <Divider />
         <List>
-        <ListItem button key="My Profile">
-            <ListItemIcon>
-              <FaceIcon />
-            </ListItemIcon>
-            <Link to = '/profile'><ListItemText primary="My Profile" /></Link>
-          </ListItem>
-
-          <ListItem button key="Settings">
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <Link to = '/settings'><ListItemText primary="Settings" /></Link>
-          </ListItem>
-
-          <ListItem button key="Logout">
-            <ListItemIcon>
-                <ExitToAppIcon/>
-            </ListItemIcon>
-            <Link to = '/logout'><ListItemText primary="Logout" /></Link>
+          <ListItem button key="My Profile">
+            <Link to="/profile">
+              <ListItemIcon>
+                <FaceIcon />
+              </ListItemIcon>
+            </Link>
+            <Link to="/profile">
+              <ListItemText primary="My Profile" />
+            </Link>
           </ListItem>
         </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <div>
-            {prop_value}
-        </div>
-        
+        <div>{prop_value}</div>
       </main>
     </div>
   );
