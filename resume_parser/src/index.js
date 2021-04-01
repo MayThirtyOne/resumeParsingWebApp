@@ -5,10 +5,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Auth0Provider } from "@auth0/auth0-react";
+
 
 ReactDOM.render(
     <ChakraProvider>
+      <Auth0Provider
+    domain="dev-3mwnb68w.jp.auth0.com"
+    clientId="8LNcpqGCxyt1GzdE3nJfaJvu3I6PYDKq"
+    redirectUri={window.location.origin}
+  >
     <App />
+    </Auth0Provider>
     </ChakraProvider>,
   document.getElementById('root')
 );
