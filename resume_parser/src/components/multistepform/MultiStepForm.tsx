@@ -23,6 +23,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 // const sleep = (time) => new Promise((acc) => setTimeout(acc, time));
 
@@ -41,14 +43,47 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function MultiStepForm() {
+  
   const classes = useStyles();
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  let userDetail;
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
+  if (isAuthenticated) {
+
+
+
+
+
+
+
+
+    
+    const input = { email: user.email };
+    const backendURL = "https://backend.rankresu.me/fetchUser/";
+
+    fetch(backendURL, {
+      method: 'POST',
+      body: JSON.stringify(input),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(response => userDetail = response)
+      .catch(error => console.error('Error:', error));
+  }
+
+
+
   return (
     <div>
       <Card>
         <CardContent>
           <FormikStepper
             initialValues={{
-              firstName: "Vijay",
+              firstName: (isAuthenticated ? "Ramesh" : "Suresh"),
               lastName: "Kumar",
               address_1: "323, BSK 3rd Stage",
               address_2: "Near Katriguppe Signal",
@@ -88,7 +123,7 @@ function MultiStepForm() {
             onSubmit={async (values) => {
               // await sleep(3000);
               console.log("values", values);
-              
+
             }}
           >
             <FormikStep label="Personal Data">
