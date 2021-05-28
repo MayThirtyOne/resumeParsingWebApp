@@ -26,7 +26,7 @@ export class UploadResumeContent extends PureComponent {
             ),
           })}
           onSubmit={(values) => {
-            console.log('values', values);
+            console.log('values', values.files[0].url);
             return new Promise((res) => setTimeout(res, 2000));
           }}
         >
