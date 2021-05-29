@@ -120,6 +120,18 @@ function MultiStepForm() {
             initialValues={initialValues}
             onSubmit={async (values) => {
               // await sleep(3000);
+              const input = { email: user.email, formValue: values };
+              const backendURL = "https://backend.rankresu.me/submitUser/";
+              fetch(backendURL, {
+                method: 'POST',
+                body: JSON.stringify(input),
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              }).then(res => res.json())
+                .then(response => console.log('Success:', JSON.stringify(response)))
+                .catch(error => console.error('Error:', error));
+
               console.log("values", values);
 
             }}
