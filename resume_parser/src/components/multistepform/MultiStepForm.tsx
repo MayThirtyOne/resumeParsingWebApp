@@ -18,7 +18,7 @@ import {
   FieldArray,
 } from "formik";
 import { TextField } from "formik-material-ui";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
@@ -43,15 +43,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function MultiStepForm() {
-  
+  const [initialValues, setInitialValues] = useState({
+    firstName: "Vijay",
+    lastName: "Kumar",
+    address_1: "323, BSK 3rd Stage",
+    address_2: "Near Katriguppe Signal",
+    city_name: "Bengaluru",
+    state_name: "Karnataka",
+    pincode: "560085",
+    date_of_birth: "22/12/1999",
+    email_address: "goodemail@gmail.com",
+    phone_number: "8884696920",
+    school_name: "KV Gola Road",
+    school_marks: "92.41",
+    school_passing_year: "2017",
+    college_name: "DSCE",
+    college_marks: "8.78",
+    college_passing_year: "2021",
+
+    progLanguages: ["C++", "Python", "JAVA"],
+    techSkills: [
+      "Clean Coding",
+      "Copy Code From StackOverflow",
+      "Coding While In Bed",
+    ],
+    certificates: ["Coursera", "NPTEL", "University Of Duke"],
+    previousExperiences: ["Blah Blah Experience", "Not Such Good Experience"],
+    previousExperiences_Employer: ["Google", "Yahoo"],
+    previousExperiences_Start: ["2000", "2001"],
+    previousExperiences_Stop: ["2010", "2020"],
+    previousProjects_Title: [
+      "Good Project",
+      "A really good project!",
+    ],
+    previousProjects_Summary: ["Neat Summary1", "Neat Summary2"],
+    spokenLanguages: ["English", "Hindi"],
+    achievements: ["Best Chess Player", "Best Dancer"],
+    hobbiesAndInterests: ["Snooker", "Cricket", "Chess"],
+  });
+
+
   const classes = useStyles();
-  const { user, isAuthenticated, isLoading } = useAuth0();
-  let userDetail;
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
-
-  if (isAuthenticated) {
+  const { user } = useAuth0();
 
 
 
@@ -60,66 +93,31 @@ function MultiStepForm() {
 
 
 
-    
-    const input = { email: user.email };
-    const backendURL = "https://backend.rankresu.me/fetchUser/";
 
+  const input = { email: user.email };
+  const backendURL = "https://backend.rankresu.me/fetchUser/";
+
+
+
+
+
+  useEffect(() => {
     fetch(backendURL, {
       method: 'POST',
       body: JSON.stringify(input),
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(res => res.json())
-      .then(response => userDetail = response)
-      .catch(error => console.error('Error:', error));
-  }
+    }).then(res => res.json()).then(res => setInitialValues(res));
+  }, []);
 
-
-
-  return (
+  return initialValues ?
     <div>
       <Card>
         <CardContent>
           <FormikStepper
-            initialValues={{
-              firstName: (isAuthenticated ? "Ramesh" : "Suresh"),
-              lastName: "Kumar",
-              address_1: "323, BSK 3rd Stage",
-              address_2: "Near Katriguppe Signal",
-              city_name: "Bengaluru",
-              state_name: "Karnataka",
-              pincode: "560085",
-              date_of_birth: "22/12/1999",
-              email_address: "goodemail@gmail.com",
-              phone_number: "8884696920",
-              school_name: "KV Gola Road",
-              school_marks: "92.41",
-              school_passing_year: "2017",
-              college_name: "DSCE",
-              college_marks: "8.78",
-              college_passing_year: "2021",
-
-              progLanguages: ["C++", "Python", "JAVA"],
-              techSkills: [
-                "Clean Coding",
-                "Copy Code From StackOverflow",
-                "Coding While In Bed",
-              ],
-              certificates: ["Coursera", "NPTEL", "University Of Duke"],
-              previousExperiences: ["Blah Blah Experience", "Not Such Good Experience"],
-              previousExperiences_Employer: ["Google", "Yahoo"],
-              previousExperiences_Start: ["2000", "2001"],
-              previousExperiences_Stop: ["2010", "2020"],
-              previousProjects_Title: [
-                "Good Project",
-                "A really good project!",
-              ],
-              previousProjects_Summary: ["Neat Summary1", "Neat Summary2"],
-              spokenLanguages: ["English", "Hindi"],
-              achievements: ["Best Chess Player", "Best Dancer"],
-              hobbiesAndInterests: ["Snooker", "Cricket", "Chess"],
-            }}
+            enableReinitialize={true}
+            initialValues={initialValues}
             onSubmit={async (values) => {
               // await sleep(3000);
               console.log("values", values);
@@ -320,7 +318,7 @@ function MultiStepForm() {
                     gutterBottom
                   >
                     Known Programming Languages
-                  </Typography>
+              </Typography>
                 </CardContent>
                 <CardContent>
                   <div className="form-control">
@@ -380,7 +378,7 @@ function MultiStepForm() {
                                 onClick={() => push("")}
                               >
                                 Add Programming Language
-                              </Button>
+                          </Button>
                             </Box>
                           </div>
                         );
@@ -400,7 +398,7 @@ function MultiStepForm() {
                     gutterBottom
                   >
                     Technical Skills & Expertise
-                  </Typography>
+              </Typography>
                 </CardContent>
                 <CardContent>
                   <div className="form-control">
@@ -461,7 +459,7 @@ function MultiStepForm() {
                                 onClick={() => push("")}
                               >
                                 Add Skills & Expertise
-                              </Button>
+                          </Button>
                             </Box>
                           </div>
                         );
@@ -481,7 +479,7 @@ function MultiStepForm() {
                     gutterBottom
                   >
                     Certifications and Licenses
-                  </Typography>
+              </Typography>
                 </CardContent>
                 <CardContent>
                   <div className="form-control">
@@ -542,7 +540,7 @@ function MultiStepForm() {
                                 onClick={() => push("")}
                               >
                                 Add Certificate/License
-                              </Button>
+                          </Button>
                             </Box>
                           </div>
                         );
@@ -564,7 +562,7 @@ function MultiStepForm() {
                     gutterBottom
                   >
                     Previous Experiences
-                  </Typography>
+              </Typography>
                 </CardContent>
                 <CardContent>
                   <div className="form-control">
@@ -659,7 +657,7 @@ function MultiStepForm() {
                                 onClick={() => push("")}
                               >
                                 Add Previous Experience
-                              </Button>
+                          </Button>
                             </Box>
                           </div>
                         );
@@ -678,7 +676,7 @@ function MultiStepForm() {
                     gutterBottom
                   >
                     Previous Projects
-                  </Typography>
+              </Typography>
                 </CardContent>
                 <CardContent>
                   <div className="form-control">
@@ -751,7 +749,7 @@ function MultiStepForm() {
                                 onClick={() => push("")}
                               >
                                 Add Project
-                              </Button>
+                          </Button>
                             </Box>
                           </div>
                         );
@@ -772,7 +770,7 @@ function MultiStepForm() {
                     gutterBottom
                   >
                     Achievements
-                  </Typography>
+              </Typography>
                 </CardContent>
                 <CardContent>
                   <div className="form-control">
@@ -833,7 +831,7 @@ function MultiStepForm() {
                                 onClick={() => push("")}
                               >
                                 Add Achievement
-                              </Button>
+                          </Button>
                             </Box>
                           </div>
                         );
@@ -853,7 +851,7 @@ function MultiStepForm() {
                     gutterBottom
                   >
                     Spoken Languages
-                  </Typography>
+              </Typography>
                 </CardContent>
                 <CardContent>
                   <div className="form-control">
@@ -914,7 +912,7 @@ function MultiStepForm() {
                                 onClick={() => push("")}
                               >
                                 Add Language
-                              </Button>
+                          </Button>
                             </Box>
                           </div>
                         );
@@ -934,7 +932,7 @@ function MultiStepForm() {
                     gutterBottom
                   >
                     Hobbies, Co-Cirricular & Interests
-                  </Typography>
+              </Typography>
                 </CardContent>
                 <CardContent>
                   <div className="form-control">
@@ -995,7 +993,7 @@ function MultiStepForm() {
                                 onClick={() => push("")}
                               >
                                 Add Hobby
-                              </Button>
+                          </Button>
                             </Box>
                           </div>
                         );
@@ -1010,9 +1008,15 @@ function MultiStepForm() {
           </FormikStepper>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div> :
+    <span>loading...</span>;
 }
+
+
+
+
+
+
 
 export interface FormikStepProps
   extends Pick<FormikConfig<FormikValues>, "children" | "validationSchema"> {
